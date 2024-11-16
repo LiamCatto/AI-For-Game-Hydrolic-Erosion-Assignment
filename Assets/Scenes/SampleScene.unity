@@ -171,8 +171,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   o_pointMarker: {fileID: 512783387}
   s_pointMarker: {fileID: 0}
-  width: 2
-  height: 2
+  material: {fileID: 2100000, guid: d5fa1898999d2434ea5603504cf74a03, type: 2}
+  width: 100
+  height: 100
+  elevationScale: 10
+  noiseScale: 0.05
+  waterLevel: 6
+  sandLevel: 6.5
+  groundLevel: 10
+  updateMap: 0
 --- !u!23 &228459861
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -193,7 +200,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: d5fa1898999d2434ea5603504cf74a03, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -254,6 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marker: {fileID: 806161582702246568, guid: 90a073637eb2c194999f42c6b91c34ee, type: 3}
   markerList: []
+  showMarkers: 1
 --- !u!4 &512783389
 Transform:
   m_ObjectHideFlags: 0

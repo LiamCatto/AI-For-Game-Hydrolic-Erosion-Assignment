@@ -6,15 +6,18 @@ public class World : MonoBehaviour
 {
     public GameObject o_pointMarker;
     public PointMarker s_pointMarker;
+    public Material material;
 
     public int width;
     public int height;
+    public int elevationScale;
+    public float noiseScale;
+    public float waterLevel;
+    public float sandLevel;
+    public float groundLevel;
+    public bool updateMap;
 
-    //private GameObject worldObject;
     private Mesh worldMap;
-    private Material material;
-
-    private Vector2[] newUV;
 
     // Start is called before the first frame update
     void Start()
@@ -30,22 +33,34 @@ public class World : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        s_pointMarker.ClearMarkers();
-        GenerateWorldMap();
+        if (updateMap)
+        {
+            s_pointMarker.ClearMarkers();
+            GenerateWorldMap();
+
+            updateMap = false;
+        }
     }
 
-    // The triangles don't generate correctly with certain dimensions, and never work when height is greater than width. A square map always seems to work.
     void GenerateWorldMap()
     {
         // Add Vertices
         Vector3[] newVertices = new Vector3[(width + 1) * (height + 1)];
         int index = 0;
 
-        for (int i = 0; i < width; i++)
+        for (int k = 0; k <= height; k++)
         {
-            for(int k = 0; k < height; k++)
+            for(int i = 0; i <= width; i++)
             {
-                newVertices[index] = new Vector3(i, 0, k);
+                float elevation = Mathf.PerlinNoise(i * noiseScale, k * noiseScale);
+                if (elevation < 0) elevation = 0;
+                if (elevation > 1) elevation = 1;
+
+                float altitude = elevation * elevationScale;
+                if (altitude <= waterLevel) altitude = waterLevel;
+
+                newVertices[index] = new Vector3(i, altitude, k);
+
                 s_pointMarker.CreateMarker(newVertices[index], Quaternion.identity);
                 index++;
             }
@@ -54,23 +69,34 @@ public class World : MonoBehaviour
         // Add Triangles
         int[] newTriangles = new int[width * height * 6];
         int tIndex = 0;
+        int vertex = 0;
 
-        for (int i = 0; i < width * height; i++)
+        for (int k = 0; k < height; k++)
         {
-            newTriangles[tIndex] = i + width;
-            newTriangles[tIndex + 1] = i;
-            newTriangles[tIndex + 2] = i + 1;
+            for (int i = 0; i < width; i++)
+            {
+                newTriangles[tIndex] = vertex;
+                newTriangles[tIndex + 1] = vertex + width + 1;
+                newTriangles[tIndex + 2] = vertex + 1;
 
-            newTriangles[tIndex + 3] = i + width;
-            newTriangles[tIndex + 4] = i + 1;
-            newTriangles[tIndex + 5] = i + width + 1;
+                newTriangles[tIndex + 3] = vertex + 1;
+                newTriangles[tIndex + 4] = vertex + width + 1;
+                newTriangles[tIndex + 5] = vertex + width + 2;
 
-            tIndex += 6;
+                vertex++;
+                tIndex += 6;
+            }
+            vertex++;
         }
 
         worldMap.Clear();
 
         worldMap.vertices = newVertices;
         worldMap.triangles = newTriangles;
+        worldMap.RecalculateNormals();
+
+        material.SetFloat("waterLevel", waterLevel);
+        material.SetFloat("sandLevel", sandLevel);
+        material.SetFloat("groundLevel", groundLevel);
     }
 }
