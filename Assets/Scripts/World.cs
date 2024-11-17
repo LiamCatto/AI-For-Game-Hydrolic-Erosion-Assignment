@@ -12,6 +12,8 @@ public class World : MonoBehaviour
     public int height;
     public int elevationScale;
     public float noiseScale;
+    public float noiseOffsetX;
+    public float noiseOffsetY;
     public float waterLevel;
     public float sandLevel;
     public float groundLevel;
@@ -52,12 +54,12 @@ public class World : MonoBehaviour
         {
             for(int i = 0; i <= width; i++)
             {
-                float elevation = Mathf.PerlinNoise(i * noiseScale, k * noiseScale);
+                float elevation = Mathf.PerlinNoise((i * noiseScale) + noiseOffsetX, (k * noiseScale) + noiseOffsetY);
                 if (elevation < 0) elevation = 0;
                 if (elevation > 1) elevation = 1;
 
                 float altitude = elevation * elevationScale;
-                if (altitude <= waterLevel) altitude = waterLevel;
+                //if (altitude <= waterLevel) altitude = waterLevel - 0.001f;
 
                 newVertices[index] = new Vector3(i, altitude, k);
 
