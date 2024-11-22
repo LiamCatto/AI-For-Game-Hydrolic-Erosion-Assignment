@@ -30,6 +30,6 @@ public class PointMarker : MonoBehaviour
     public void ClearMarkers()
     {
         foreach (GameObject obj in markerList) Destroy(obj);
-        markerList.Clear();
+        markerList.Clear(); 
     }
 }

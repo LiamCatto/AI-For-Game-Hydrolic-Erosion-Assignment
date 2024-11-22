@@ -4,6 +4,7 @@ Shader "Custom/TerrainSurface"
     {
 
     }
+
     SubShader
     {
         Tags { "RenderType"="Opaque" }

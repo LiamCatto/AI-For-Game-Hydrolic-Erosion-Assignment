@@ -99,6 +99,6 @@ public class World : MonoBehaviour
 
         material.SetFloat("waterLevel", waterLevel);
         material.SetFloat("sandLevel", sandLevel);
-        material.SetFloat("groundLevel", groundLevel);
+        material.SetFloat("groundLevel", groundLevel); 
     }
 }
