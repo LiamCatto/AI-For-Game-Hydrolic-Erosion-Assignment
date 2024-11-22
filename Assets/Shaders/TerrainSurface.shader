@@ -31,7 +31,7 @@ Shader "Custom/TerrainSurface"
             if (IN.worldPos.y <= sandLevel) o.Albedo = float4(1, 1, 0, 1);
             if (IN.worldPos.y <= waterLevel) o.Albedo = float4(0, 0, 1, 1);
         }
-        ENDCG
+        ENDCG 
     }
     FallBack "Diffuse"
 }
