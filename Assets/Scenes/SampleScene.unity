@@ -181,6 +181,7 @@ MonoBehaviour:
   waterLevel: 6
   sandLevel: 6.5
   groundLevel: 10
+  islandMix: 0
   updateMap: 0
 --- !u!23 &228459861
 MeshRenderer:

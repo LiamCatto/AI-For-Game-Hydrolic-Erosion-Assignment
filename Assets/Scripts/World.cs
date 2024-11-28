@@ -17,6 +17,7 @@ public class World : MonoBehaviour
     public float waterLevel;
     public float sandLevel;
     public float groundLevel;
+    public float islandMix;
     public bool updateMap;
 
     private Mesh worldMap;
@@ -52,16 +53,50 @@ public class World : MonoBehaviour
 
         for (int k = 0; k <= height; k++)
         {
-            for(int i = 0; i <= width; i++)
+            for(int i = 0; i <= width; i++) // For some reason distance isn't taken into account; all vertices are being raised by the same amount instead of their elevations varying by distance
             {
+                //float nx = (2 * i) / width;
+                //float ny = (2 * k) / height;
+                //float nx = (i / width) * 0.5f;
+                //float ny = (k / height) * 0.5f;
+                float nx = i - width / 2;
+                float ny = k - height / 2;
                 float elevation = Mathf.PerlinNoise((i * noiseScale) + noiseOffsetX, (k * noiseScale) + noiseOffsetY);
-                if (elevation < 0) elevation = 0;
+                if (elevation < 0) elevation = 0;   
                 if (elevation > 1) elevation = 1;
+
+                //float nx = ((2 * i) / width) - 1;
+                //float ny = ((2 * k) / height) - 1;
+                //float nx = (i * noiseScale) + noiseOffsetX;
+                //float ny = (k * noiseScale) + noiseOffsetY;
+                float distFromCenter = 1 - (1 - Mathf.Pow(i, 2)) * (1 - Mathf.Pow(k, 2));
+                //float distFromCenter = Mathf.Sqrt(Mathf.Pow(nx, 2) + Mathf.Pow(ny, 2));
+
+                // closest attempt
+                //Vector2 vectorToCenter = new Vector2(0, 0) - new Vector2(nx, ny);
+                //float distFromCenter = vectorToCenter.magnitude;
+
+                distFromCenter = 1 / distFromCenter;
+                if (distFromCenter < 0.01f) distFromCenter = 0.01f;
+                if (distFromCenter > 0.99f) distFromCenter = 0.99f;
+                //if (distFromCenter < 0) distFromCenter = 0;
+                //if (distFromCenter > 1) distFromCenter = 1;
+                Debug.Log("dist: " + distFromCenter);
+                //float elevation = Mathf.PerlinNoise(i * scaleOffsetX, k * scaleOffsetY);
+                elevation = Mathf.Lerp(elevation, 1 - distFromCenter, islandMix);
+                Debug.Log("e: " + elevation);
+
+                //if (elevation < 0) elevation = 0;
+                //if (elevation > 1) elevation = 1;
+                //elevation = 1 / elevation;
 
                 float altitude = elevation * elevationScale;
                 //if (altitude <= waterLevel) altitude = waterLevel - 0.001f;
 
-                newVertices[index] = new Vector3(i, altitude, k);
+                //newVertices[index] = new Vector3(i, altitude, k);
+                newVertices[index] = new Vector3(nx, altitude, ny);
+
+                //newVertices[index] = new Vector3(i, elevation, k);
 
                 s_pointMarker.CreateMarker(newVertices[index], Quaternion.identity);
                 index++;
