@@ -181,7 +181,9 @@ MonoBehaviour:
   waterLevel: 6
   sandLevel: 6.5
   groundLevel: 10
-  islandMix: 0
+  islandMix: 0.5
+  aboveWaterLevelOnly: 0
+  randomGeneration: 1
   updateMap: 0
 --- !u!23 &228459861
 MeshRenderer:
@@ -264,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   marker: {fileID: 806161582702246568, guid: 90a073637eb2c194999f42c6b91c34ee, type: 3}
   markerList: []
-  showMarkers: 1
+  showMarkers: 0
 --- !u!4 &512783389
 Transform:
   m_ObjectHideFlags: 0
