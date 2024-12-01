@@ -5,22 +5,12 @@ using UnityEngine;
 
 public class PointMarker : MonoBehaviour
 {
+    // Highlights each vertex in the mesh for debugging
+
     public GameObject marker;
     public List<GameObject> markerList;
 
     public bool showMarkers;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     
     public void CreateMarker(Vector3 position, Quaternion rotation)
     {

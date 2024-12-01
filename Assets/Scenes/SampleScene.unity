@@ -183,7 +183,7 @@ MonoBehaviour:
   groundLevel: 10
   islandMix: 0.5
   aboveWaterLevelOnly: 0
-  randomGeneration: 1
+  randomGeneration: 0
   updateMap: 0
 --- !u!23 &228459861
 MeshRenderer:
